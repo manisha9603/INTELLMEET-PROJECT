@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { socketService } from '../services/websocket.service';
 import { useMeetingStore } from '../store/useMeetingStore';
 
-export const useWebRTC = (roomId: string) => {
+export const useWebRTC = (_roomId: string) => {
   const localStream = useMeetingStore(s => s.localStream);
   const screenShareStream = useMeetingStore(s => s.screenShareStream);
   const peerConnections = useRef<Map<string, RTCPeerConnection>>(new Map());
