@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Sora", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-body: "Inter", sans-serif;
+
+  --color-accent: #4f46e5;
+  --color-accent-2: #7c3aed;
+  --color-accent-3: #ec4899;
+  
+  --color-bg: #ffffff;
+  --color-bg-1: #f9fafb;
+  --color-bg-2: #f3f4f6;
+  --color-bg-3: #e5e7eb;
+  
+  --color-text-primary: #09090b;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #9ca3af;
+}
+
+:root {
+  --bg: #ffffff;
+  --bg-1: #f9fafb;
+  --bg-2: #f3f4f6;
+  --bg-3: #e5e7eb;
+  --border: rgba(0,0,0,0.06);
+  --border-glow: rgba(79,70,229,0.1);
+  --text-primary: #09090b;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --accent: #4f46e5;
+  --accent-2: #7c3aed;
+  --accent-3: #ec4899;
+  --glow-accent: rgba(79,70,229,0.05);
+}
+
+@layer base {
+  * {
+    @apply border-white/5;
+  }
+  
+  body {
+    @apply bg-black text-white font-body selection:bg-accent/30 selection:text-white antialiased overflow-x-hidden;
+    background-color: var(--bg);
+  }
+
+  /* Grainy Noise Overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2003/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+  }
+}
+
+@layer utilities {
+  .text-glow-cyan {
+    text-shadow: 0 0 10px rgba(79,255,255,0.5);
+  }
+  
+  .glass {
+    @apply backdrop-blur-xl bg-white/[0.03] border border-white/5;
+  }
+  
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255,255,255,0.05), 
+    transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes line-move {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-line-move {
+  animation: line-move 6s linear infinite;
+}
+
+/* ─── GPU Rendering Hints ─────────────────────────────── */
+/* Tells browser to promote these elements to their own layer */
+
+section,
+.feature-card,
+.phase-content,
+.phase-section,
+.cta-content,
+.hero-content,
+.stat-divider,
+.summary-card,
+.action-item-1,
+.action-item-2 {
+  will-change: transform, opacity;
+}
+
+/* Container positioning — required for correct GSAP scroll offset */
+section,
+.scroll-container {
+  position: relative;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0,0,0,0.2);
+}
+
+/* Hide Main Body Scrollbar while keeping functionality */
+body::-webkit-scrollbar {
+  display: none;
+}
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+

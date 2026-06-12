@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./my-react-app
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongo:27017/intellmeet
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=your_jwt_secret_here
+      - OPENAI_API_KEY=your_openai_api_key_here
+      - CLOUDINARY_URL=your_cloudinary_url_here
+    depends_on:
+      - mongo
+      - redis
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - database_data:/data/db
+
+  redis:
+    image: redis:7.0-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  database_data:

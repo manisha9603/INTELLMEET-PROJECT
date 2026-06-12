@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* Prevent white flash before LogoReveal mounts */
+html, body {
+  background-color: #000000;
+}
+
+
+@theme {
+  --color-primary: #5850EC;
+  --color-accent: #FFFFFF;
+  --color-secondary: #6B6B78;
+  --color-neutral: #333333;
+  --color-success: #10B981;
+  
+  --color-bg: #F8F8FC;
+  --color-text-primary: #111111;
+  --color-text-secondary: #6B6B78;
+  --color-text-muted: #9A9AA5;
+
+  --radius-card: 24px;
+
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "Clash Display", sans-serif;
+}
+
+@layer utilities {
+  @keyframes gradient-x {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .animate-gradient-x {
+    background-size: 200% 200%;
+    animation: gradient-x 3s ease infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 0.15em solid #00F5FF;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #00F5FF; }
+  }
+
+  .perspective-1000 { perspective: 1000px; }
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
+
+  .btn-typography {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+}
